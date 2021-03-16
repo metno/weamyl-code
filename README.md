@@ -1,2 +1,2 @@
-# weamyl-scripts
-Contains scripts and documentation that is used within the WeaMyL project (https://weamyl.met.no)
+# weamyl-code
+Contains codes and scripts related to the WeaMyL project
