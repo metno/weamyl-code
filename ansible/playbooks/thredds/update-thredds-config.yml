@@ -1,0 +1,16 @@
+# Add logrotation scripts
+---
+- name: Update thredds base config
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: Clone git repository
+      no_log: true
+      git:
+        repo: "https://{{ item.user }}:{{ item.pass }}@{{ item.repo }}"
+        dest: /metno/thredds-production/content/thredds
+        force: true
+        update: true
+      with_items:
+        - "{{ git.thredds_config }}"

@@ -1,0 +1,11 @@
+---
+- import_playbook: playbooks/system/upgrade.yml
+- import_playbook: playbooks/system/admin_ssh_keys.yml
+- import_playbook: playbooks/docker.yml
+- import_playbook: playbooks/thredds/thredds-config.yml
+- import_playbook: playbooks/thredds/docker-thredds.yml
+- import_playbook: playbooks/thredds/restart-service.yml
+- import_playbook: playbooks/thredds/reinit-watchers.yml
+- import_playbook: playbooks/system/firewall.yml
+- import_playbook: playbooks/system/logrotation.yml
+- import_playbook: playbooks/system/reboot.yml

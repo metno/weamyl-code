@@ -1,0 +1,28 @@
+# Add reinit watchers
+---
+- name: Add reinit watchers
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Copy reinit script"
+      copy:
+        src: "../../files/reinit/reinit_on_update.sh"
+        dest: /root/
+        owner: root
+        group: root
+        mode: "0755"
+    - name: "Copy topaz reinit service"
+      copy:
+        src: "../../files/reinit/thredds-reinit-topaz.service"
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+      notify:
+        - "start topaz reinit"
+  handlers:
+    - name: "start topaz reinit"
+      systemd:
+        name: "thredds-reinit-topaz"
+        state: started
+        enabled: true

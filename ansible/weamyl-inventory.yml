@@ -1,0 +1,13 @@
+---
+all:
+  children:
+    weamyl:
+      hosts: 
+        test-weamyl-a-1:
+          ansible_host: 157.249.73.247
+          short_name: weamyl-a1
+          os_zone: ext-a
+        test-weamyl-b-1:
+          ansible_host: 157.249.76.84
+          short_name: weamyl-b1
+          os_zone: ext-b

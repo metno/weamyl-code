@@ -1,0 +1,9 @@
+# Download symlinks for /var/lib/vol from git
+---
+- name: reboot
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+  - name: Reboot the server and wait for it to come back up
+    reboot:

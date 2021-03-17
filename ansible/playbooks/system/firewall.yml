@@ -1,0 +1,32 @@
+# drain.sh and iptables-restore
+---
+- name: Configure firewall
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - copy:
+        src: ../../files/network/drain.sh
+        dest: /root/
+        owner: root
+        group: root
+        mode: 0700
+    - copy:
+        src: ../../files/network/rules-save
+        dest: /var/lib/iptables/
+        owner: root
+        group: root
+        mode: 0644
+    - copy:
+        src: ../../files/network/iptables-store.service
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+        mode: 0644
+    - copy:
+        src: ../../files/network/iptables-restore.service
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+        mode: 0644
+

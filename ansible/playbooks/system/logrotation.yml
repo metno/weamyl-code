@@ -1,0 +1,27 @@
+# Add logrotation scripts
+---
+- name: Add logrotation scripts
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Copy logrotation service"
+      copy:
+        src: "../../files/flush-tds-logs.service"
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+    - name: "Copy logrotation timer"
+      copy:
+        src: "../../files/flush-tds-logs.timer"
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+      notify:
+        - "start logrotation"
+  handlers:
+    - name: "start logrotation"
+      systemd:
+        name: "flush-tds-logs.timer"
+        state: started
+        enabled: true
