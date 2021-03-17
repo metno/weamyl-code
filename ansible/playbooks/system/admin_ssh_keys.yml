@@ -1,0 +1,14 @@
+# Add ssh keys for admins
+---
+- name: Set up multiple authorized keys
+  hosts: all
+  tasks:
+    - name: Set up multiple authorized keys
+      authorized_key:
+        user: '{{ ansible_user }}'
+        state: present
+        key: '{{ item }}'
+      with_file:
+        - "../../files/public_keys/arildb.pub"
+        - "../../files/public_keys/christians.pub"
+        - "../../files/public_keys/trondm@pc5238.pub"

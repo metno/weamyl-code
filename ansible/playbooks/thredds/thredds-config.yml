@@ -1,0 +1,91 @@
+# Add logrotation scripts
+---
+- name: Add thredds base config
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Create directories"
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "/metno"
+        - "/var/lib/docker/.thredds-production"
+        - "/var/lib/docker/.thredds-logs"
+    - name: "Create directories"
+      file:
+        path: "/var/lib/docker/.thredds-production/{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - content
+        - bin
+        - conf
+    - name: "copy tomcat config"
+      copy:
+        src: "../../files/thredds-production/conf/{{ item }}"
+        dest: /var/lib/docker/.thredds-production/conf/
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - server.xml
+        - tomcat-users.xml
+    - name: "copy reinit script"
+      copy:
+        src: ../../files/thredds-production/bin/reinit-thredds.sh
+        dest: /var/lib/docker/.thredds-production/bin/
+        owner: root
+        group: root
+        mode: 0755
+    - name: "copy restart script"
+      copy:
+        src: ../../files/thredds-production/thredds-restart.sh
+        dest: /var/lib/docker/.thredds-production/
+        owner: root
+        group: root
+        mode: 0755
+    - name: "Add thredd-production symlink"
+      file:
+        src: /var/lib/docker/.thredds-production
+        dest: /metno/thredds-production
+        state: link
+    - name: "Add logs symlink"
+      file:
+        src: /var/lib/docker/.thredds-logs
+        dest: /var/log/thredds
+        state: link
+    - name: "Create log directories"
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "/var/log/thredds/logs"
+        - "/var/log/thredds/content/thredds/logs"
+#    - name: Clone git repository
+#      no_log: true
+#      git:
+#        repo: "https://{{ item.user }}:{{ item.pass }}@{{ item.repo }}"
+#        dest: /metno/thredds-production/content/thredds
+#        force: true
+#        update: true
+#      with_items:
+#        - "{{ git.thredds_config }}"
+    - name: "Add logs symlink"
+      file:
+        src: /var/log/thredds/content/thredds/logs
+        dest: /var/lib/docker/.thredds-production/content/thredds/logs
+        state: link
+    - name: "Change owner for cache dir"
+      file:
+        path: /metno/thredds-production/content/thredds/cache
+        owner: "110"
+    - name: "Change owner for log dir"
+      file:
+        path: /var/lib/docker/.thredds-logs
+        recurse: true
+        owner: "110"
+        group: "112"

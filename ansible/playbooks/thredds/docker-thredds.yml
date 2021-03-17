@@ -1,0 +1,45 @@
+# Install and start thredds docker container
+---
+- name: Install and start thredds docker container
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install haveged for improved entropy
+      apt:
+        pkg:
+          - haveged
+    - name: Log into Metno registry
+      no_log: true
+      docker_login:
+        username: "{{ item.user }}"
+        password: "{{ item.pass }}"
+        registry: "{{ item.registry }}"
+      with_items:
+        - "{{ docker.thredds }}"
+    - name: Pull thredds docker image
+      no_log: true
+      docker_image:
+        name: "{{ item.registry }}/{{ item.image }}:{{ item.tag }}"
+        source: pull
+      with_items:
+        - "{{ docker.thredds }}"
+    - name: Tag docker image
+      no_log: true
+      command: /usr/bin/docker tag "{{ item.registry }}/{{ item.image }}:{{ item.tag }}" metno/thredds:production
+      with_items:
+        - "{{ docker.thredds }}"
+    - name: "Add thredds service"
+      copy:
+        src: "../../files/thredds.service"
+        dest: /etc/systemd/system
+        owner: root
+        group: root
+      notify:
+        - "start thredds"
+  handlers:
+    - name: "start thredds"
+      systemd:
+        name: "thredds"
+        state: started
+        enabled: true

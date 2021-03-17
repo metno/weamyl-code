@@ -1,0 +1,2 @@
+#!/bin/sh
+gpg --output - --decrypt password/weamyl-vault.gpg 2>/dev/null

@@ -1,0 +1,20 @@
+# Add logrotation scripts
+---
+- name: Add thredds base config
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Copy service"
+      copy:
+        src: ../../files/thredds-restart.service
+        dest: /etc/systemd/system
+    - name: "Copy timer"
+      template:
+        src: ../../files/thredds-restart.timer.j2
+        dest: /etc/systemd/system/thredds-restart.timer
+    - name: "enable restart timer"
+      systemd:
+        name: "thredds-restart.timer"
+        state: started
+        enabled: true

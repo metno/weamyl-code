@@ -1,0 +1,13 @@
+---
+- name: Update all packages to latest version
+  hosts: weamyl
+  become: yes
+  become_user: root
+  tasks:
+  - name: apt update
+    apt:
+      update_cache: yes
+  - name: apt dist-upgrade
+    apt:
+      upgrade: dist
+
