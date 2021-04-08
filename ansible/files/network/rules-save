@@ -1,0 +1,8 @@
+*filter
+:INPUT ACCEPT [116:8532]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [106:31765]
+[108:16956] -A INPUT -i lo -j ACCEPT
+[26:1560] -A INPUT -p tcp -m tcp --dport 8443 -j REJECT --reject-with icmp-port-unreachable
+[15:900] -A INPUT -p tcp -m tcp --dport 8080 -j REJECT --reject-with icmp-port-unreachable
+COMMIT

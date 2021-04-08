@@ -1,0 +1,14 @@
+{%- set server = namespace(found = false) -%}
+{%- for tmpserver in groups.weamyl -%}
+{%- if tmpserver == ansible_facts['nodename'] -%}
+  {%- if hostvars[tmpserver].os_zone == 'ext-b' -%}
+    {%- set server.days = "Wed,Sat" -%}
+  {%- else -%}
+    {%- set server.days = "Mon,Thu" -%}
+  {%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+[Timer]
+OnCalendar={{ server.days }} *-*-* 08:40:00
+[Install]
+WantedBy=timers.target

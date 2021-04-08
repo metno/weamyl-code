@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="THREDDS Server Default Catalog : MetNo Config"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <service name="allServices" base="" serviceType="compound">
+    <service name="dapService" serviceType="OpenDAP" base="/thredds/dodsC/" />
+    <service name="httpService" serviceType="HTTPServer" base="/thredds/fileServer/" />
+    <service name="wcsService" serviceType="WCS" base="/thredds/wcs/" />
+    <!--service name="ncss" serviceType="NetcdfSubset" base="/thredds/ncss/grid/" /-->
+  </service>
+
+ <catalogRef xlink:title="Weamyl" xlink:href="projects/weamyl.xml" name="" />
+
+</catalog>
+

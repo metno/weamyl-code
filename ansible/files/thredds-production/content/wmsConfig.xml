@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Detailed configuration of the WMS service.  This config file can be used to
+set default styling parameters for each dataset/variable, and to enable or disable
+the GetFeatureInfo operation.
+
+See http://www.resc.reading.ac.uk/trac/myocean-tools/wiki/WmsDetailedConfiguration
+for more information.
+
+Revision 2012-09-20 bruceh: added some default scales for ocean bio variables
+Revision 2012-10-23 bruceh: added and revised some default scales for ocean and ice variables
+Revision 2013-01-09 arildb: Scales for osisaf variables
+Revision 2013-04-03 arildb: Scales for 0.03 and 0.05 deg sst-analysis
+Revision 2013-04-26 arildb: Scales for albedo
+Revision 2013-04-26 arildb: Scales for NERSC SAR Ice Type
+Revision 2014-02-12 arildb: Scales for PolarLow and Cryoclim
+Revision 2015-07-31 arildb: Scales for SEAICE_ARC_SEAICE_L3_REP_OBSERVATIONS_011_010 in CMEMS
+Revision 2020-11-20 arildb: New scales for ocean models, as requested by Laurent Bertino/NERSC
+-->
+<!DOCTYPE wmsConfig [
+<!ELEMENT wmsConfig (global , overrides?)>
+<!ELEMENT global (defaults , standardNames?)>
+<!ELEMENT defaults (allowFeatureInfo , defaultColorScaleRange , defaultPaletteName , defaultNumColorBands , logScaling , intervalTime)>
+<!ELEMENT standardNames (standardName)*>
+<!ELEMENT standardName (defaultColorScaleRange? , defaultPaletteName? , defaultNumColorBands? , logScaling? , intervalTime?)>
+<!ATTLIST standardName name CDATA #REQUIRED>
+<!ATTLIST standardName units CDATA #REQUIRED>
+<!ELEMENT overrides (datasetPath)*>
+<!ELEMENT datasetPath (pathDefaults? , variables?)>
+<!ATTLIST datasetPath pathSpec CDATA #REQUIRED>
+<!ELEMENT pathDefaults (allowFeatureInfo? , defaultColorScaleRange? , defaultPaletteName? , defaultNumColorBands? , logScaling? , intervalTime?)>
+<!ELEMENT variables (variable)*>
+<!ELEMENT variable (defaultColorScaleRange? , defaultPaletteName? , defaultNumColorBands? , logScaling? , intervalTime?)>
+<!ATTLIST variable id CDATA #REQUIRED>
+<!ELEMENT allowFeatureInfo (#PCDATA)>
+<!ELEMENT defaultColorScaleRange (#PCDATA)>
+<!ELEMENT defaultPaletteName (#PCDATA)>
+<!ELEMENT defaultNumColorBands (#PCDATA)>
+<!ELEMENT logScaling (#PCDATA)>
+<!ELEMENT intervalTime (#PCDATA)>
+<!-- Allows to use time ranges instead of lists in the capabilities documents -->]>
+<wmsConfig>
+  <global>
+    <!-- These settings apply to all datasets unless overridden below -->
+    <defaults>
+      <!-- The global defaults. All elements are mandatory -->
+      <allowFeatureInfo>true</allowFeatureInfo>
+      <defaultColorScaleRange>-50 50</defaultColorScaleRange>
+      <defaultPaletteName>rainbow</defaultPaletteName>
+      <defaultNumColorBands>20</defaultNumColorBands>
+      <logScaling>false</logScaling>
+      <intervalTime>false</intervalTime>
+    </defaults>
+    <standardNames>
+      <!-- Use this section to set defaults per standard name -->
+      <!-- Units must come from the UDUNITS vocabulary -->
+      <standardName name="air_temperature" units="K">
+        <defaultColorScaleRange>253 308</defaultColorScaleRange>
+      </standardName>
+      <standardName name="thickness_of_rainfall_amount" units="mm">
+        <defaultColorScaleRange>0 50</defaultColorScaleRange>
+      </standardName>
+      <standardName name="lwe_precipitation_rate" units="mm/day">
+        <defaultColorScaleRange>0 50</defaultColorScaleRange>
+      </standardName>
+      <standardName name="precipitation_flux" units="kg/m2/s">
+        <defaultColorScaleRange>0 0.001</defaultColorScaleRange>
+      </standardName>
+      <standardName name="precipitation_amount" units="kg/m2">
+        <defaultColorScaleRange>0 50</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_floor_depth_below_sea_level" units="meter">
+        <defaultColorScaleRange>0 5000</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_water_potential_temperature" units="Celsius">
+        <defaultColorScaleRange>-2 28</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_water_temperature" units="Celsius">
+        <defaultColorScaleRange>-2 28</defaultColorScaleRange>
+      </standardName>
+      <!-- standardName name="sea_surface_foundation_temperature" units="Celsius" -->
+      <!-- defaultColorScaleRange>-2 28</defaultColorScaleRange -->
+      <!-- /standardName -->
+      <standardName name="sea_water_salinity" units="1">
+        <defaultColorScaleRange>0 0.04</defaultColorScaleRange>
+      </standardName>
+      <standardName name="x_sea_water_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="y_sea_water_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="sea_surface_elevation" units="m">
+        <defaultColorScaleRange>-4 4</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="ocean_mixed_layer_thickness" units="m">
+        <defaultColorScaleRange>0 500</defaultColorScaleRange>
+      </standardName>
+      <standardName name="surface_downward_x_stress" units="pascal">
+        <defaultColorScaleRange>-1.0 1.0</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="surface_downward_y_stress" units="pascal">
+        <defaultColorScaleRange>-1.0 1.0</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="ocean_barotropic_streamfunction" units="m3 s-1">
+        <defaultColorScaleRange>-5.0e+07 5.0e+07</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="net_downward_shortwave_flux_in_air" units="W m-2">
+        <defaultColorScaleRange>0 400</defaultColorScaleRange>
+      </standardName>
+      <standardName name="surface_downward_heat_flux_in_sea_water" units="W m-2">
+        <defaultColorScaleRange>-500 500</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="water_flux_into_ocean" units="kg m-2 s-1">
+        <defaultColorScaleRange>-1.0e-04 1.0e-04</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="sea_ice_area_fraction" units="1">
+        <defaultColorScaleRange>0 1</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_ice_thickness" units="m">
+        <defaultColorScaleRange>0 5</defaultColorScaleRange>
+      </standardName>
+      <standardName name="surface_snow_thickness" units="m">
+        <defaultColorScaleRange>0 2</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_ice_x_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="sea_ice_y_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="eastward_sea_ice_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="northward_sea_ice_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="sea_ice_velocity" units="m s-1">
+        <defaultColorScaleRange>-2 2</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="fraction_of_first_year_ice" units="1">
+        <defaultColorScaleRange>0 1</defaultColorScaleRange>
+      </standardName>
+      <standardName name="age_of_first_year_ice" units="day">
+        <defaultColorScaleRange>0 366</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_ice_albedo" units="1">
+        <defaultColorScaleRange>0 1</defaultColorScaleRange>
+      </standardName>
+      <standardName name="downward_x_stress_at_sea_ice_base" units="pascal">
+        <defaultColorScaleRange>-4 4</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="downward_x_stress_at_sea_ice_base" units="pascal">
+        <defaultColorScaleRange>-4 4</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="ice_concentration" units="%">
+        <defaultColorScaleRange>0 100</defaultColorScaleRange>
+      </standardName>
+      <standardName name="ice_edge" units="1">
+        <defaultColorScaleRange>1 10</defaultColorScaleRange>
+        <defaultNumColorBands>10</defaultNumColorBands>
+      </standardName>
+      <standardName name="ice_type" units="1">
+        <defaultColorScaleRange>1 10</defaultColorScaleRange>
+        <defaultNumColorBands>10</defaultNumColorBands>
+      </standardName>
+      <standardName name="sea_ice_classification" units="1">
+        <defaultColorScaleRange>1 10</defaultColorScaleRange>
+        <defaultNumColorBands>10</defaultNumColorBands>
+      </standardName>
+      <standardName name="sea_ice_classification status_flag" units="1">
+        <defaultColorScaleRange>1 10</defaultColorScaleRange>
+        <defaultNumColorBands>10</defaultNumColorBands>
+      </standardName>
+      <standardName name="sea_ice_x_displacement" units="km">
+        <defaultColorScaleRange>-20 20</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="sea_ice_y_displacement" units="km">
+        <defaultColorScaleRange>-20 20</defaultColorScaleRange>
+        <defaultPaletteName>redblue</defaultPaletteName>
+      </standardName>
+      <standardName name="mass_concentration_of_chlorophyll_in_sea_water" units="kg m-3">
+        <defaultColorScaleRange>0.001 5</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="mass_concentration_of_chlorophyll_a_in_sea_water" units="kg m-3">
+        <defaultColorScaleRange>0.001 5</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="mass_concentration_of_oxygen_in_sea_water" units="kg m-3">
+        <defaultColorScaleRange>0.001 0.02</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="mole_concentration_of_nitrate_in_sea_water" units="mole m-3">
+        <defaultColorScaleRange>0.001 20</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="mole_concentration_of_phosphate_in_sea_water" units="mole m-3">
+        <defaultColorScaleRange>0.001 2</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="mole_concentration_of_phytoplankton_in_sea_water_expressed_as_nitrogen" units="mole m-3">
+        <defaultColorScaleRange>0.00001 0.004</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="gross_primary_productivity_of_carbon" units="kg m-2 day-1">
+        <defaultColorScaleRange>0.00001 0.01</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="volume_attenuation_coefficient_of_downwelling_radiative_flux_in_sea_water" units="m-1">
+        <defaultColorScaleRange>0.03 0.3</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="surface_temperature" units="K">
+        <defaultColorScaleRange>193 300</defaultColorScaleRange>
+      </standardName>
+      <!-- From NERSC 2020-11-20 : -->
+      <standardName name="ocean_mixed_layer_thickness_defined_by_sigma_theta" units="m">
+        <defaultColorScaleRange>5 1000</defaultColorScaleRange>
+        <logScaling>true</logScaling>
+      </standardName>
+      <standardName name="sea_water_potential_temperature_at_sea_floor" units="degrees_C">
+        <defaultColorScaleRange>-2 15</defaultColorScaleRange>
+      </standardName>
+      <standardName name="age_of_sea_ice" units="day">
+        <defaultColorScaleRange>0 1000</defaultColorScaleRange>
+      </standardName>
+      <!-- clashing with previously defined : -->
+      <!-- standardName name="sea_ice_classification" units="1">
+        <defaultColorScaleRange>0 2</defaultColorScaleRange>
+      </standardName -->
+      <!-- standardName name="surface_snow_thickness" units="m">
+        <defaultColorScaleRange>0 0.4</defaultColorScaleRange>
+      </standardName -->
+      <!-- standardName name="sea_ice_x_velocity" units="m s-1">
+        <defaultColorScaleRange>-0.5 0.5</defaultColorScaleRange>
+      </standardName -->
+      <!-- standardName name="sea_ice_y_velocity" units="m s-1">
+        <defaultColorScaleRange>-0.5 0.5</defaultColorScaleRange>
+      </standardName -->
+      <standardName name="sea_water_x_velocity" units="m s-1">
+        <defaultColorScaleRange>-0.5 0.5</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_water_y_velocity" units="m s-1">
+        <defaultColorScaleRange>-0.5 0.5</defaultColorScaleRange>
+      </standardName>
+      <standardName name="sea_surface_height_above_geoid" units="m">
+        <defaultColorScaleRange>-1 1</defaultColorScaleRange>
+      </standardName>
+      <!-- TODO: how about allowing "*fraction" to map to 0:1? -->
+      <!-- TODO: how about allowing multiple standard names to map to the same settings,
+                 either through a glob expression or through a list? -->
+    </standardNames>
+  </global>
+  <overrides>
+    <datasetPath pathSpec="testAll/*eta_211.nc">
+      <!-- Will apply to all paths that match the path spec above -->
+      <pathDefaults>
+        <!-- These will apply to all variables in this path unless overridden below -->
+        <allowFeatureInfo>false</allowFeatureInfo>
+        <defaultPaletteName>occam</defaultPaletteName>
+      </pathDefaults>
+      <variables>
+        <!-- Configure variables individually according to their internal ID.
+                     This is the most specific setting and will override any others -->
+        <variable id="Z_sfc">
+          <defaultColorScaleRange>10 20</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="cryoclim/*">
+      <variables>
+        <variable id="gao">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="glo">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_conc_avg">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_conc_std">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_conc_smin">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_conc_smax">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_edge_avg">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="status_flag">
+          <defaultColorScaleRange>0 101</defaultColorScaleRange>
+        </variable>
+        <variable id="lmask">
+          <defaultColorScaleRange>0 3</defaultColorScaleRange>
+        </variable>
+        <!-- snow -->
+        <variable id="snowcover_basic">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="snowcover_dry">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="snowcover_wet">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="snow_cover">
+          <defaultColorScaleRange>1 3</defaultColorScaleRange>
+        </variable>
+        <variable id="prob_snow">
+          <defaultColorScaleRange>0.0 1.0</defaultColorScaleRange>
+        </variable>
+        <variable id="prob_nosnow">
+          <defaultColorScaleRange>0.0 1.0</defaultColorScaleRange>
+        </variable>
+        <variable id="sca">
+          <defaultColorScaleRange>0 200</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="topaz/*">
+      <variables>
+        <variable id="ssh">
+          <defaultColorScaleRange>-1 1</defaultColorScaleRange>
+          <defaultPaletteName>redblue</defaultPaletteName>
+        </variable>
+        <variable id="CCF">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="CCD">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="MU2">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="MU3">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="fy_frac">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="fy_age">
+          <defaultColorScaleRange>0 366</defaultColorScaleRange>
+        </variable>
+        <variable id="albedo">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="sea_ice/*">
+      <variables>
+        <variable id="confidence_level">
+          <defaultColorScaleRange>1 5</defaultColorScaleRange>
+          <defaultNumColorBands>5</defaultNumColorBands>
+        </variable>
+        <variable id="mask">
+          <defaultColorScaleRange>1 9</defaultColorScaleRange>
+        </variable>
+        <variable id="ibc">
+          <defaultColorScaleRange>0 5</defaultColorScaleRange>
+        </variable>
+        <variable id="analysed_sst">
+          <defaultColorScaleRange>271 301</defaultColorScaleRange>
+        </variable>
+        <variable id="analysis_error">
+          <defaultColorScaleRange>0 5</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="myocean/siw-tac/sst-*">
+      <variables>
+        <variable id="mask">
+          <defaultColorScaleRange>1 9</defaultColorScaleRange>
+        </variable>
+        <variable id="analysed_sst">
+          <defaultColorScaleRange>271 301</defaultColorScaleRange>
+        </variable>
+        <variable id="analysis_error">
+          <defaultColorScaleRange>0 5</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="osisaf_test/*">
+      <variables>
+        <!-- standardName name="sea_ice_classification" -->
+        <variable id="ice_type">
+          <defaultColorScaleRange>1 4</defaultColorScaleRange>
+          <!-- defaultNumColorBands>3</defaultNumColorBands -->
+        </variable>
+        <variable id="ice_edge">
+          <defaultColorScaleRange>1 3</defaultColorScaleRange>
+          <!-- defaultNumColorBands>2</defaultNumColorBands -->
+        </variable>
+        <variable id="confidence_level">
+          <defaultColorScaleRange>0 5</defaultColorScaleRange>
+          <!-- defaultNumColorBands>5</defaultNumColorBands -->
+        </variable>
+        <variable id="status_flag">
+          <defaultColorScaleRange>0 102</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="arcticdata/*">
+      <variables>
+        <variable id="rr">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+          <defaultPaletteName>metnoprecipitation</defaultPaletteName>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="arcticdata/sios/SvalSCE*">
+      <variables>
+        <variable id="classed_product">
+          <defaultColorScaleRange>-1 4</defaultColorScaleRange>
+        </variable>
+        <variable id="prob_snow">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="prob_nosnow">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="num_pass">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="land_area_fraction">
+          <defaultColorScaleRange>0 255</defaultColorScaleRange>
+        </variable>
+        <variable id="num_obs_used">
+          <defaultColorScaleRange>0 16</defaultColorScaleRange>
+        </variable>
+        <variable id="gapfree_classed_product">
+          <defaultColorScaleRange>-1 4</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="norcesnowcover/*">
+      <variables>
+        <variable id="snowfr">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="flag">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="arcticdata/*iceChart*">
+      <variables>
+        <variable id="ice_edge">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+        <variable id="ice_concentration">
+          <defaultColorScaleRange>0 100</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="arcticdata/met.no/tam*">
+      <variables>
+        <variable id="tam">
+          <defaultColorScaleRange>240 308</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="aromearcticlatest/*">
+      <variables>
+        <variable id="relative_humidity_2m">
+          <defaultColorScaleRange>0.4 1.0</defaultColorScaleRange>
+        </variable>
+        <variable id="air_pressure_at_sea_level">
+          <defaultColorScaleRange>80000 120000</defaultColorScaleRange>
+        </variable>
+        <variable id="surface_air_pressure">
+          <defaultColorScaleRange>80000 120000</defaultColorScaleRange>
+        </variable>
+        <variable id="precipitation_amount_acc">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+        </variable>
+        <variable id="precipitation_amount">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+        </variable>
+        <variable id="precipitation_amount_high_estimate">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+        </variable>
+        <variable id="precipitation_amount_low_estimate">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+        </variable>
+        <variable id="precipitation_amount_middle_estimate">
+          <defaultColorScaleRange>0 60</defaultColorScaleRange>
+        </variable>
+        <variable id="cloud_area_fraction">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="high_type_cloud_area_fraction">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="low_type_cloud_area_fraction">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="medium_type_cloud_area_fraction">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="wind_speed_of_gust">
+          <defaultColorScaleRange>0 40</defaultColorScaleRange>
+        </variable>
+        <variable id="x_wind_10m">
+          <defaultColorScaleRange>-25 25</defaultColorScaleRange>
+        </variable>
+        <variable id="y_wind_10m">
+          <defaultColorScaleRange>-25 25</defaultColorScaleRange>
+        </variable>
+        <variable id="integral_of_surface_net_downward_shortwave_flux_wrt_time">
+          <defaultColorScaleRange>0 20000000</defaultColorScaleRange>
+        </variable>
+        <variable id="integral_of_surface_net_downward_longwave_flux_wrt_time">
+          <defaultColorScaleRange>-30000000 4000000</defaultColorScaleRange>
+        </variable>
+        <variable id="integral_of_surface_downward_latent_heat_evaporation_flux_wrt_time">
+          <defaultColorScaleRange>-30000000 10000000</defaultColorScaleRange>
+        </variable>
+        <variable id="integral_of_surface_downward_latent_heat_sublimation_flux_wrt_time">
+          <defaultColorScaleRange>-30000000 10000000</defaultColorScaleRange>
+        </variable>
+        <variable id="downward_northward_momentum_flux_in_air">
+          <defaultColorScaleRange>-70000 70000</defaultColorScaleRange>
+        </variable>
+        <variable id="downward_eastward_momentum_flux_in_air">
+          <defaultColorScaleRange>-70000 70000</defaultColorScaleRange>
+        </variable>
+        <variable id="surface_geopotential">
+          <defaultColorScaleRange>201000 206000</defaultColorScaleRange>
+        </variable>
+        <variable id="liquid_water_content_of_surface_snow">
+          <defaultColorScaleRange>0 1000</defaultColorScaleRange>
+        </variable>
+        <variable id="atmosphere_boundary_layer_thickness">
+          <defaultColorScaleRange>0 3000</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="harmonepspolarlow/*">
+      <variables>
+        <variable id="number_of_tracks">
+          <defaultColorScaleRange>0 3</defaultColorScaleRange>
+          <defaultNumColorBands>4</defaultNumColorBands>
+        </variable>
+        <variable id="strike_probability">
+          <defaultColorScaleRange>0.0 1.0</defaultColorScaleRange>
+          <!-- defaultNumColorBands>10</defaultNumColorBands -->
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="data/VolcanicAsh/*">
+      <variables>
+        <variable id="MAX6h_ASH_fl000-200">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>200 4000</defaultColorScaleRange>
+          <defaultPaletteName>ashpalette</defaultPaletteName>
+        </variable>
+        <variable id="MAX6h_ASH_fl200-350">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>200 4000</defaultColorScaleRange>
+          <defaultPaletteName>ashpalette</defaultPaletteName>
+        </variable>
+        <variable id="MAX6h_ASH_fl350-550">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>200 4000</defaultColorScaleRange>
+          <defaultPaletteName>ashpalette</defaultPaletteName>
+        </variable>
+        <variable id="ash_concentration_col">
+          <!-- units="g/m2"-->
+          <defaultColorScaleRange>0.2 4</defaultColorScaleRange>
+          <defaultPaletteName>ashpalette</defaultPaletteName>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="data/fou-kl/uEMEP/*">
+      <variables>
+        <variable id="AQI">
+          <!-- units="1"-->
+          <defaultColorScaleRange>1 5</defaultColorScaleRange>
+          <defaultPaletteName>uemep_aqi_palette</defaultPaletteName>
+          <defaultNumColorBands>80</defaultNumColorBands>
+        </variable>
+        <variable id="no2_concentration">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>0 500</defaultColorScaleRange>
+          <defaultPaletteName>uemep_no2_palette</defaultPaletteName>
+          <defaultNumColorBands>80</defaultNumColorBands>
+        </variable>
+        <variable id="pm10_concentration">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>0 800</defaultColorScaleRange>
+          <defaultPaletteName>uemep_pm10_palette</defaultPaletteName>
+          <defaultNumColorBands>80</defaultNumColorBands>
+        </variable>
+        <variable id="pm25_concentration">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>0 200</defaultColorScaleRange>
+          <defaultPaletteName>uemep_pm25_palette</defaultPaletteName>
+          <defaultNumColorBands>80</defaultNumColorBands>
+        </variable>
+        <variable id="o3_concentration">
+          <!-- units="ug/m3"-->
+          <defaultColorScaleRange>0 400</defaultColorScaleRange>
+          <defaultPaletteName>uemep_o3_palette</defaultPaletteName>
+          <defaultNumColorBands>80</defaultNumColorBands>
+        </variable>
+      </variables>
+    </datasetPath>
+    <datasetPath pathSpec="applicate/BSC/*">
+      <variables>
+        <variable id="clt">
+          <defaultColorScaleRange>0 1</defaultColorScaleRange>
+        </variable>
+        <variable id="hfls">
+          <defaultColorScaleRange>-500 20</defaultColorScaleRange>
+        </variable>
+        <variable id="hfss">
+          <defaultColorScaleRange>-300 100</defaultColorScaleRange>
+        </variable>
+        <variable id="hfxout">
+          <defaultColorScaleRange>-1000 600</defaultColorScaleRange>
+        </variable>
+        <variable id="pr">
+          <defaultColorScaleRange>0 0.0004</defaultColorScaleRange>
+        </variable>
+        <variable id="psl">
+          <defaultColorScaleRange>80000 120000</defaultColorScaleRange>
+        </variable>
+        <variable id="rlds">
+          <defaultColorScaleRange>0 500</defaultColorScaleRange>
+        </variable>
+        <variable id="rsds">
+          <defaultColorScaleRange>0 500</defaultColorScaleRange>
+        </variable>
+        <variable id="sivolu">
+          <defaultColorScaleRange>0 7</defaultColorScaleRange>
+        </variable>
+        <variable id="snld">
+          <defaultColorScaleRange>0 10</defaultColorScaleRange>
+        </variable>
+        <variable id="ta">
+          <defaultColorScaleRange>200 330</defaultColorScaleRange>
+        </variable>
+        <variable id="tas">
+          <defaultColorScaleRange>200 330</defaultColorScaleRange>
+        </variable>
+        <variable id="tos">
+          <defaultColorScaleRange>-2 35</defaultColorScaleRange>
+        </variable>
+        <variable id="tsice">
+          <defaultColorScaleRange>-40 2</defaultColorScaleRange>
+        </variable>
+        <variable id="ua">
+          <defaultColorScaleRange>-60 60</defaultColorScaleRange>
+        </variable>
+        <variable id="uas">
+          <defaultColorScaleRange>-15 15</defaultColorScaleRange>
+        </variable>
+        <variable id="va">
+          <defaultColorScaleRange>-60 60</defaultColorScaleRange>
+        </variable>
+        <variable id="vas">
+          <defaultColorScaleRange>-15 15</defaultColorScaleRange>
+        </variable>
+        <variable id="zg">
+          <defaultColorScaleRange>4500 6000</defaultColorScaleRange>
+        </variable>
+      </variables>
+    </datasetPath>
+  </overrides>
+</wmsConfig>

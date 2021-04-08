@@ -7,8 +7,6 @@
       authorized_key:
         user: '{{ ansible_user }}'
         state: present
-        key: '{{ item }}'
-      with_file:
-        - "../../files/public_keys/arildb.pub"
-        - "../../files/public_keys/christians.pub"
-        - "../../files/public_keys/trondm@pc5238.pub"
+        key: "{{ lookup('file', item) }}"
+      with_fileglob:
+        - "../../files/public_keys/*.pub"

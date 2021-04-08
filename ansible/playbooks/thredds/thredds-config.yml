@@ -21,10 +21,15 @@
         group: root
         mode: 0755
       with_items:
-        - content
+        - content/thredds/cache
         - bin
         - conf
-    - name: "copy tomcat config"
+    - name: "Set group and mode for thredds content directory"
+      file:
+        path: "/var/lib/docker/.thredds-production/content/thredds"
+        group: 112
+        mode: 0775
+    - name: "copy tomcat server config"
       copy:
         src: "../../files/thredds-production/conf/{{ item }}"
         dest: /var/lib/docker/.thredds-production/conf/
@@ -34,6 +39,13 @@
       with_items:
         - server.xml
         - tomcat-users.xml
+    - name: "copy thredds config"
+      copy:
+        src: "../../files/thredds-production/content/"
+        dest: /var/lib/docker/.thredds-production/content/thredds/
+        owner: root
+        group: root
+        mode: 0644
     - name: "copy reinit script"
       copy:
         src: ../../files/thredds-production/bin/reinit-thredds.sh

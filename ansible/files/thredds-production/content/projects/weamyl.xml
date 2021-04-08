@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog
+    name="met.no"
+    xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink" >
+
+    <service name="dap_and_http" base="" serviceType="compound">
+      <service name="dapService" serviceType="OpenDAP" base="/thredds/dodsC/" />
+      <service name="httpService" serviceType="HTTPServer" base="/thredds/fileServer/" />
+      <service name="wms" serviceType="WMS" base="/thredds/wms/" />
+    </service>
+
+  <!-- ref Anne-Cecilie Riser 2021-03-18 -->
+  <dataset name="WeaMyL">
+    <datasetScan name="WeaMyL" path="weamyl" location="/lustre/storeB/project/IT/geout/weamyl">
+      <metadata inherited="true">
+        <serviceName>dap_and_http</serviceName>
+      </metadata>
+      <filter>
+        <include regExp=".*\.nc(4)?" />
+        <include regExp=".*\.ncml" />
+        <exclude wildcard=".*" />
+      </filter>
+    </datasetScan>
+  </dataset>
+
+</catalog>

@@ -1,0 +1,9 @@
+[Unit]
+After=thredds.service
+Requires=thredds.service
+
+[Service]
+ExecStart=/root/reinit_on_update.sh 300 /vol/cmems/sea/metnotopaz4_2/tds_conf/myoceanv2-class1-arctic-1hr.xml
+
+[Install]
+WantedBy=multi-user.target
