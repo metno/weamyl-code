@@ -6,7 +6,7 @@ Requires=docker.service
 ExecStartPre=-/usr/bin/docker kill thredds
 ExecStartPre=-/usr/bin/docker rm thredds
 ExecStartPre=/bin/mkdir -p /run/jhealthz
-ExecStart=/usr/bin/docker run --net=host --log-driver none --cap-drop ALL --name thredds -p 8080:8080 -v /metno/thredds-production/bin/reinit-thredds.sh:/usr/local/tomcat/bin/reinit-thredds.sh -v /metno/thredds-production/content/thredds:/usr/local/tomcat/content/thredds:rw -v /var/log/thredds/logs:/usr/local/tomcat/logs:rw -v /var/log/thredds/content/thredds/logs:/var/log/thredds/content/thredds/logs:rw -v /var/lib/vol/vol:/vol:rslave metno/thredds:production
+ExecStart=/usr/bin/docker run --net=host --log-driver none --cap-drop ALL --name thredds -p 8080:8080 -v /metno/thredds-production/bin/reinit-thredds.sh:/usr/local/tomcat/bin/reinit-thredds.sh -v /metno/thredds-production/content/thredds:/usr/local/tomcat/content/thredds:rw -v /var/log/thredds/logs:/usr/local/tomcat/logs:rw -v /var/log/thredds/content/thredds/logs:/var/log/thredds/content/thredds/logs:rw -v /var/lib/vol/vol:/vol:rslave -v /home/weamyl/WEAMYL_project/out/RADAR:/weamyl_data:rslave metno/thredds:production
 ExecStop=/usr/bin/docker stop thredds
 
 [Install]
