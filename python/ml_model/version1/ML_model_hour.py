@@ -351,7 +351,7 @@ def testMosaicTiledProductSingleTimePrediction(t, httpLinkOrFile0, httpLinkOrFil
     # plt.show()
 
 # Define working directory
-WD = '/lustre/storeB/project/IT/geout/weamyl/weamyl_model/tmp/'
+#WD = '/lustre/storeB/project/IT/geout/weamyl/weamyl_model/tmp/'
 #WD = '/home/abdelkaderm/'
 WD = '/home/weamyl/data/
 
