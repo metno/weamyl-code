@@ -353,6 +353,7 @@ def testMosaicTiledProductSingleTimePrediction(t, httpLinkOrFile0, httpLinkOrFil
 # Define working directory
 WD = '/lustre/storeB/project/IT/geout/weamyl/weamyl_model/tmp/'
 #WD = '/home/abdelkaderm/'
+WD = '/home/weamyl/data/
 
 #if sys.argv[1] == 'latest':
     # t = time_floor(datetime.datetime.now() - datetime.timedelta(minutes = 10))
