@@ -353,7 +353,7 @@ def testMosaicTiledProductSingleTimePrediction(t, httpLinkOrFile0, httpLinkOrFil
 # Define working directory
 #WD = '/lustre/storeB/project/IT/geout/weamyl/weamyl_model/tmp/'
 #WD = '/home/abdelkaderm/'
-WD = '/home/weamyl/data/
+WD = '/home/weamyl/ml_model/version1/'
 
 #if sys.argv[1] == 'latest':
     # t = time_floor(datetime.datetime.now() - datetime.timedelta(minutes = 10))
@@ -378,7 +378,7 @@ WD = '/home/weamyl/data/
 # testOne2OneSingleProductSingleTimePrediction(year,month,day,hour,minute)
 for i in range(0, 120, 5):
     if i == 0:
-        list_of_files = glob.glob('/lustre/storeB/project/remotesensing/radar/reflectivity-nordic/latest/*')
+        list_of_files = glob.glob(WD + 'data/*.nc')
         httpLinkOrFile = max(list_of_files, key=os.path.getctime)
         lf = sorted(list_of_files, key=os.path.getmtime)
         # pdb.set_trace()
